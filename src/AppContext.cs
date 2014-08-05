@@ -13,6 +13,8 @@ namespace ECView_CSharp
 {
     public class AppContext : ApplicationContext
     {
+        public const int MAX_FAN_RPM = 4400;
+
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         private static extern bool DestroyIcon(IntPtr handle);
 
@@ -61,6 +63,7 @@ namespace ECView_CSharp
             clevoWmiInstance.Get();
             using (var searcher = new ManagementObjectSearcher(@"root\WMI", "SELECT * FROM MSAcpi_ThermalZoneTemperature"))
             {
+                // ReSharper disable once PossibleInvalidCastExceptionInForeachLoop
                 foreach (ManagementObject obj in searcher.Get())
                 {
                     if (@"ACPI\ThermalZone\TZ0__0".Equals(obj["InstanceName"].ToString()))
@@ -228,7 +231,7 @@ namespace ECView_CSharp
 
         protected void UpdateIcon()
         {
-            var rpmRatio = currentRpms / 4400m;
+            var rpmRatio = currentRpms / (decimal) MAX_FAN_RPM;
             if (rpmRatio >= 1)
                 rpmRatio = 1;
             var iconSize = 16;

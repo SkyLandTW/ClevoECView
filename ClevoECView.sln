@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClevoECView", "ClevoECView.csproj", "{C2191A18-DAD9-48E0-8573-32E98D30036E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClevoECView", "src\ClevoECView.csproj", "{C2191A18-DAD9-48E0-8573-32E98D30036E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
