@@ -34,14 +34,18 @@ Installation:
 
 Verified hardwares:
   - Clevo W350SS
+  - Clevo P170SM-A (CPU fan only)
 
 TODO:
   - Support more fans
 
 Notes:
-  - The project is for Visual Studio 2012, but based on .NET Frameeork 2.0.
+  - The project is for Visual Studio 2012, but based on .NET Framework 2.0.
     You should be able to change the version in .csproj for 2005/2008/2010.
-  - Traces of Clevo WMI is not present in ECView, but in the latest version
-    of Hotkey AP (v2.34.46); Inside the HotkeyService.exe there is an unused
-    class HotKeyService.Talk2Wmi. Most of the WMI calls don't work though.
-
+  - Trace of Clevo WMI is not present in ECView, but inside the latest version
+    of Hotkey AP (v2.34.46): In the HotkeyService.exe there is an unused class
+    _HotKeyService.Talk2Wmi_. Most of the WMI calls don't work though.
+  - UEFI seems to block any changes of settings made to the fan. Reading via
+    WMI would still function.
+  - Confirmed to work with and without Prema Mod, the unlocked BIOS for Clevo
+    laptops.
