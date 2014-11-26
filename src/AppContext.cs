@@ -33,7 +33,6 @@ namespace ECView_CSharp
         protected readonly String logFilePath;
         protected readonly ManagementObject clevoWmiInstance;
         protected readonly ManagementObject msTz0WmiInstance;
-        protected Form1 form1;
         protected int currentRpms = -1;
         protected int currentTemp = -1;
         protected int lastFanCuty = -1;
@@ -45,14 +44,12 @@ namespace ECView_CSharp
             notifyIcon = new NotifyIcon();
             notifyIcon.Icon = Resources.ClevoECView;
             notifyIcon.ContextMenuStrip = new ContextMenuStrip();
-            notifyIcon.ContextMenuStrip.Items.Add(new ToolStripMenuItem("Config", null, MenuItemConfig_Click));
             notifyIcon.ContextMenuStrip.Items.Add(new ToolStripMenuItem("Set Fan 100%", null, MenuItemSet100_Click));
             notifyIcon.ContextMenuStrip.Items.Add(new ToolStripMenuItem("Set Fan 90%", null, MenuItemSet90_Click));
             notifyIcon.ContextMenuStrip.Items.Add(new ToolStripMenuItem("Set Fan 80%", null, MenuItemSet80_Click));
             notifyIcon.ContextMenuStrip.Items.Add(new ToolStripMenuItem("Set Fan 60%", null, MenuItemSet60_Click));
             notifyIcon.ContextMenuStrip.Items.Add(new ToolStripMenuItem("Set Fan Auto", null, MenuItemSetAuto_Click));
             notifyIcon.ContextMenuStrip.Items.Add(new ToolStripMenuItem("Exit", null, MenuItemExit_Click));
-            notifyIcon.MouseDoubleClick += MenuItemConfig_Click;
             notifyIcon.Text = "ECView (initializing)";
             notifyIcon.Visible = true;
             timerFan = new Timer(s => UpdateFanStateFromWmi(), null, 500, 500);
@@ -79,11 +76,6 @@ namespace ECView_CSharp
         {
             if (disposing)
             {
-                if (form1 != null)
-                {
-                    form1.Dispose();
-                    form1 = null;
-                }
                 if (msTz0WmiInstance != null)
                     msTz0WmiInstance.Dispose();
                 clevoWmiInstance.Dispose();
@@ -269,15 +261,6 @@ namespace ECView_CSharp
 CPU: {0:N0}℃
 FAN: {1:N0}rpm / {2:N0}%",
                 currentTemp, currentRpms, lastFanCuty);
-        }
-
-        private void MenuItemConfig_Click(object sender, EventArgs e)
-        {
-            if (form1 == null)
-                form1 = new Form1();
-            if (!form1.Visible)
-                form1.Show();
-            form1.Activate();
         }
 
         private void MenuItemExit_Click(object sender, EventArgs e)
