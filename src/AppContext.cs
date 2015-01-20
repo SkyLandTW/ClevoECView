@@ -47,6 +47,7 @@ namespace ECView_CSharp
             notifyIcon.ContextMenuStrip.Items.Add(new ToolStripMenuItem("Set Fan 100%", null, MenuItemSet100_Click));
             notifyIcon.ContextMenuStrip.Items.Add(new ToolStripMenuItem("Set Fan 90%", null, MenuItemSet90_Click));
             notifyIcon.ContextMenuStrip.Items.Add(new ToolStripMenuItem("Set Fan 80%", null, MenuItemSet80_Click));
+            notifyIcon.ContextMenuStrip.Items.Add(new ToolStripMenuItem("Set Fan 70%", null, MenuItemSet70_Click));
             notifyIcon.ContextMenuStrip.Items.Add(new ToolStripMenuItem("Set Fan 60%", null, MenuItemSet60_Click));
             notifyIcon.ContextMenuStrip.Items.Add(new ToolStripMenuItem("Set Fan Auto", null, MenuItemSetAuto_Click));
             notifyIcon.ContextMenuStrip.Items.Add(new ToolStripMenuItem("Exit", null, MenuItemExit_Click));
@@ -115,6 +116,13 @@ namespace ECView_CSharp
         {
             File.AppendAllText(logFilePath, DateTime.Now + ": set 80%\r\n");
             ThreadPool.QueueUserWorkItem(p => SetFanManual(0.8m));
+            UpdateMenuItemsUI(sender);
+        }
+
+        protected void MenuItemSet70_Click(object sender, EventArgs e)
+        {
+            File.AppendAllText(logFilePath, DateTime.Now + ": set 70%\r\n");
+            ThreadPool.QueueUserWorkItem(p => SetFanManual(0.7m));
             UpdateMenuItemsUI(sender);
         }
 
