@@ -278,6 +278,8 @@ FAN: {1:N0}rpm / {2:N0}%",
 
         private String ExecClevoWmiMethod(string name)
         {
+            if (clevoWmiInstance == null)
+                return null;
             var outParams = clevoWmiInstance.InvokeMethod(name, null, null);
             if (outParams != null)
             {
