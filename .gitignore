@@ -1,3 +1,4 @@
 /out
 /src/obj
 *.suo
+*.idb

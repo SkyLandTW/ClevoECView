@@ -1,0 +1,13 @@
+read cpu fan		|auto fan duty		|set fan duty		|set volume		|set mute
+------------------------|-----------------------|-----------------------|-----------------------|-----------------------
+			|			|			|			|
+out EC_SC 80		|out EC_SC 99		|out EC_SC 99		|out EC_SC A6		|out EC_SC A6
+out EC_DATA D0		|out EC_DATA FF		|out EC_DATA 1		|out EC_DATA 1		|out EC_DATA 0
+in  EC_DATA		|out EC_DATA 1		|out EC_DATA $RPM	|out EC_DATA $VOLUME	|out EC_DATA $ARG
+			|			|			|
+out EC_SC 80		|			| $RPM = % (0 ~ 255)	|
+out EC_DATA D1		|			|			|
+in  EC_DATA		|
+			|
+
+RPM = 2156220 / (D0 D1)
