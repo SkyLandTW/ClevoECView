@@ -120,6 +120,7 @@ static void dump_fan_config(void)
 	int val_rpm = 2156220 / raw_rpm;
 	printf("FAN Duty: %d%%\n", val_duty);
 	printf("FAN RPMs: %d RPM\n", val_rpm);
+	printf("CPU Temp: %d°C\n", read_ec(0x07));
 }
 
 static void test_fan_config(int duty_percentage)
