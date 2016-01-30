@@ -7,11 +7,11 @@
 
 
 #include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <sys/io.h>
 #include <unistd.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 
 
 #define EC_SC 0x66
@@ -111,53 +111,25 @@ static void do_ec(const uint32_t cmd, const uint32_t port, const uint8_t value)
 	return;
 }
 
-
-static void dump_all_regs(void)
-{
-	uint8_t val;
-        int i;
-
-	printf("EC reg dump:");
-	for (i = 0x00; i <= 0xff; i++)
-	{
-		if ((i % 16) == 0)
-		{
-			printf("\n 0x%02x: ", i);
-		}
-		val = read_ec(i);
-		printf("%02x ", val);
-	}
-}
-
 static void dump_fan_config(void)
 {
 	printf("Dump FAN\n");
-	printf("FAN RPMs: %02x %02x\n", read_ec(0xD0), read_ec(0xD1));
-	printf("FAN Duty: %d\n", read_ec(0xCE));
+        int raw_duty = read_ec(0xCE);
+        int val_duty = (int) ((double) raw_duty / 255.0 * 100.0);
+	int raw_rpm = (read_ec(0xD0) << 8) + (read_ec(0xD1));
+	int val_rpm = 2156220 / raw_rpm;
+	printf("FAN Duty: %d%%\n", val_duty);
+	printf("FAN RPMs: %d RPM\n", val_rpm);
 }
 
-static void test_fan_config(void)
+static void test_fan_config(int duty_percentage)
 {
-	printf("Test FAN\n");
-	do_ec(0x99, 0x01, 0xA0);
-	printf("FAN RPMs: %02x %02x\n", read_ec(0xD0), read_ec(0xD1));
-	printf("FAN Duty: %d\n", read_ec(0xCE));
+	double v_d = ((double) duty_percentage) / 100.0 * 255.0;
+	int v_i = (int) v_d;
+	printf("Test FAN %d%% to %d\n", duty_percentage, v_i);
+	do_ec(0x99, 0x01, v_i);
+	dump_fan_config();
 }
-
-
-static void
-reset_speeds(void)
-{
-        int i;
-	// LG X110 bios defaults
-	static const uint8_t defaults[] = {0x00, 0x28, 0x32, 0x3c, 0x41, 0x50, 0x50, 0x55};
-
-	for (i = 0; i < sizeof(defaults) / sizeof(defaults[0]); i++)
-	{
-		write_ec(EC_FAN_SPEEDS_1 + i, defaults[i]);
-	}
-}
-
 
 int main(int argc, char *argv[])
 {
@@ -181,7 +153,7 @@ int main(int argc, char *argv[])
 		}
 		else
 		{
-			test_fan_config();
+			test_fan_config(atoi(*argv));
 		}
 	}
 	else
