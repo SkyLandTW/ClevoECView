@@ -114,16 +114,26 @@ static void do_ec(const uint32_t cmd, const uint32_t port, const uint8_t value)
 static void dump_fan_config(void)
 {
 	printf("Dump FAN\n");
-        int raw_duty = read_ec(0xCE);
-        int val_duty = (int) ((double) raw_duty / 255.0 * 100.0);
-	int raw_rpm = (read_ec(0xD0) << 8) + (read_ec(0xD1));
-	int val_rpm;
-	if (raw_rpm == 0)
-		val_rpm = 0;
+        int raw_duty1 = read_ec(0xCE);
+        int val_duty1 = (int) ((double) raw_duty1 / 255.0 * 100.0);
+	int raw_rpm1 = (read_ec(0xD0) << 8) + (read_ec(0xD1));
+	int val_rpm1;
+	if (raw_rpm1 == 0)
+		val_rpm1 = 0;
 	else
-		val_rpm = 2156220 / raw_rpm;
-	printf("FAN Duty: %d%%\n", val_duty);
-	printf("FAN RPMs: %d RPM\n", val_rpm);
+		val_rpm1 = 2156220 / raw_rpm1;
+        int raw_duty2 = read_ec(0xCF);
+        int val_duty2 = (int) ((double) raw_duty2 / 255.0 * 100.0);
+	int raw_rpm2 = (read_ec(0xD2) << 8) + (read_ec(0xD3));
+	int val_rpm2;
+	if (raw_rpm2 == 0)
+		val_rpm2 = 0;
+	else
+		val_rpm2 = 2156220 / raw_rpm2;
+	printf("FAN1 Duty: %d%%\n", val_duty1);
+	printf("FAN1 RPMs: %d RPM\n", val_rpm1);
+	printf("FAN2 Duty: %d%%\n", val_duty2);
+	printf("FAN2 RPMs: %d RPM\n", val_rpm2);
 	printf("CPU Temp: %d°C\n", read_ec(0x07));
 }
 
