@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppContext.cs" />
+    <Compile Include="ClevoControlWorker.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="CallingVariations.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

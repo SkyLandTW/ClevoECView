@@ -4,6 +4,7 @@
 // Assembly location: C:\ECView\ClevoECView.exe
 
 using System;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace ECView_CSharp
@@ -15,7 +16,15 @@ namespace ECView_CSharp
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new AppContext());
+            using (var mutex = new Mutex(false, "Global\\ClevoECView"))
+            {
+                if (!mutex.WaitOne(0, false))
+                {
+                    MessageBox.Show("ClevoECView already running");
+                    return;
+                }
+                Application.Run(new AppContext());
+            }
         }
     }
 }
